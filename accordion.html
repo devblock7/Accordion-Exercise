@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Accordion</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style>
+		.accordion {
+		    background-color: #9e38b0;
+		    color: #FFF;
+		    cursor: pointer;
+		    padding: 18px;
+		    width: 100%;
+		    text-align: left;
+				box-shadow: 0px 2px 0px 0px #6f277d;
+		    border: 0px solid white;
+		    outline: none;
+		    transition: 0.4s;
+		    font: 20px Lato, sans-serif;
+		}
+
+		.active, .accordion:hover {
+		    background-color: #6844b7;
+				box-shadow: 0px 2px 0px 0px #4c3185;
+		}
+
+		.panel {
+		    padding: 2px 18px;
+		    background-color: white;
+		    max-height: 0;
+		    overflow: hidden;
+		    transition: max-height 0.2s ease-out;
+		}
+
+		p{
+			font: 16px Lato, sans-serif;
+		}
+
+		.accordion:after {
+			  font-weight: 900;
+		    content: '\FE40';
+		    font-size: 1em;
+		    float: right;
+		    margin-left: 5px;
+		}
+
+		.active:after {
+		    content: "\FE3F";
+		}
+	</style>
+</head>
+<body>
+	<button class="accordion">Section 1</button>
+	<div class="panel">
+	<p id="output1"></p>
+	</div>
+
+	<button class="accordion">Section 2</button>
+	<div class="panel">
+	<p id="output2"></p>
+	</div>
+
+	<button class="accordion">Section 3</button>
+	<div class="panel">
+	<p id="output3"></p>
+	</div>
+
+	<script type="text/javascript">
+		var acc = document.getElementsByClassName("accordion");
+		var i;
+
+		for (i = 0; i < acc.length; i++) {
+		  acc[i].addEventListener("click", function() {
+		    this.classList.toggle("active");
+		    var panel = this.nextElementSibling;
+		    if (panel.style.maxHeight){
+		      panel.style.maxHeight = null;
+		    } else {
+		      panel.style.maxHeight = panel.scrollHeight + "px";
+		    }
+
+		  });
+}
+
+const fetchPromise = fetch('https://cors-anywhere.herokuapp.com/https://design.propcom.co.uk/buildtest/accordion-data.json')
+const output1 = document.getElementById("output1");
+const output2 = document.getElementById("output2");
+const output3 = document.getElementById("output3");
+fetchPromise.then(function (response) {
+	return response.json();
+}).then(function (data) {
+	console.log(data);
+	output1.innerHTML = data.blocks[0].content;
+	output2.innerHTML = data.blocks[1].content;
+	output3.innerHTML = data.blocks[2].content;
+});
+
+
+
+</script>
+</body>
+</html>
